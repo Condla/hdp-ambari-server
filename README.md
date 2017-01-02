@@ -3,6 +3,13 @@ Role Name
 
 A brief description of the role goes here.
 
+TODO: Dont forget to source the ambari database ddl after installing the
+server:
+
+Find the Ambari-DDL-MySQL-CREATE.sql file in the
+/var/lib/ambari-server/resources/ directory of the Ambari Server host after you
+have installed Ambari Server.
+
 Requirements
 ------------
 
