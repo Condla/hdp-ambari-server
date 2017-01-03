@@ -1,14 +1,11 @@
-Role Name
-=========
+Ambari Server and HDP Installation
+==================================
 
-A brief description of the role goes here.
+TODOS:
 
-TODO: Dont forget to source the ambari database ddl after installing the
-server:
+* find a neat way to configure ambari-server .... (maybe deploy config file)
+* install hdp using blueprints
 
-Find the Ambari-DDL-MySQL-CREATE.sql file in the
-/var/lib/ambari-server/resources/ directory of the Ambari Server host after you
-have installed Ambari Server.
 
 Requirements
 ------------

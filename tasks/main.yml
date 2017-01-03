@@ -1,2 +1,30 @@
 ---
 # tasks file for hdp-ambari-server
+
+- name: install ambari server
+  yum: name=ambari-server state=present
+
+- name: populate ambari server db
+  mysql_db:
+    state: import
+    name: ambari
+    target: /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql
+    login_user: root
+    login_password: "{{ mysql_admin_password }}"
+  register: result
+  changed_when: not "already exists" in "{{ result.msg }}"
+  failed_when: false
+
+- name: setup ambari server
+  shell: ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar
+
+- name: setup ambari server
+  shell: printf '\n\n\ny\n3\n\n\n\n\nambari\nambari\n\n' | timeout 100 ambari-server setup
+  register: result
+  changed_when: result.rc == 0
+  failed_when: result.rc != 0
+
+- name: start ambari server
+  service: name=ambari-server state=started enabled=yes
+
+
