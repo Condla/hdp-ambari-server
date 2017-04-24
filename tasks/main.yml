@@ -15,11 +15,11 @@
   changed_when: not "already exists" in "{{ result.msg }}"
   failed_when: false
 
-- name: setup ambari server
+- name: setup ambari server database connector
   shell: ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar
 
 - name: setup ambari server
-  shell: printf '\n\n\ny\n3\n\n\n\n\nambari\nambari\n\n' | timeout 100 ambari-server setup
+  shell: printf '\n\n\ny\n3\n\n\n\n\nambari\nambari\n\n' | timeout 500 ambari-server setup
   register: result
   changed_when: result.rc == 0
   failed_when: result.rc != 0
