@@ -25,6 +25,10 @@
   failed_when: result.rc != 0
 
 - name: start ambari server
+  systemd: name=ambari-server state=started enabled=yes
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'
+
+- name: start ambari server
   service: name=ambari-server state=started enabled=yes
-
-
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'
+  
