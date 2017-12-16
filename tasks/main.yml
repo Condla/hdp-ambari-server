@@ -9,20 +9,22 @@
     state: import
     name: ambari
     target: /var/lib/ambari-server/resources/Ambari-DDL-MySQL-CREATE.sql
-    login_user: root
+    login_user: "{{ mysql_admin_user }}"
     login_password: "{{ mysql_admin_password }}"
   register: result
-  changed_when: not "already exists" in "{{ result.msg }}"
+  changed_when: not "already exists" in result.msg
   failed_when: false
 
 - name: setup ambari server database connector
-  shell: ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar
+  shell: "ambari-server setup --jdbc-db={{ ambari_db }} \
+                             --jdbc-driver={{ ambari_db_driver }}"
 
 - name: setup ambari server
-  shell: printf '\n\n\ny\n3\n\n\n\n\nambari\nambari\n\n' | timeout 500 ambari-server setup
+  shell: "/usr/sbin/ambari-server setup -s -j {{ java_home }} --database={{ ambari_db }} --databasehost={{ mysql_server }} --databaseport={{ mysql_port }} --databasename={{ ambari_db_name }} --databaseusername={{ ambari_db_username }} --databasepassword={{ ambari_db_password }}"
   register: result
   changed_when: result.rc == 0
   failed_when: result.rc != 0
+  notify: restart ambari server
 
 - name: start ambari server
   systemd: name=ambari-server state=started enabled=yes

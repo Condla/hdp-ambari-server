@@ -1,2 +1,11 @@
 ---
 # handlers file for hdp-ambari-server
+
+- name: restart ambari server
+  systemd: name=ambari-server state=restarted
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'
+
+- name: restart ambari server
+  service: name=ambari-server state=restarted
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'
+

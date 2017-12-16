@@ -1,2 +1,13 @@
 ---
 # defaults file for hdp-ambari-server
+ambari_db: mysql
+ambari_db_driver: /usr/share/java/mysql-connector-java.jar 
+ambari_db_name: ambari
+mysql_server: localhost
+mysql_admin_user: root
+mysql_admin_password: hdp_admin
+mysql_port: 3306
+databases:
+    ambari_db_name: ambari
+    ambari_db_user: ambari
+    ambari_db_password: ambari
